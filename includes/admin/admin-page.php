@@ -14,6 +14,7 @@ function wn_admin_tabs() {
   return [
     'modules' => ['label' => 'Tính năng', 'icon' => 'dashicons-screenoptions'],
     'search' => ['label' => 'Tìm kiếm', 'icon' => 'dashicons-search'],
+    'contact' => ['label' => 'Nút liên hệ', 'icon' => 'dashicons-phone'],
     'tet' => ['label' => 'Trang trí Tết', 'icon' => 'dashicons-star-filled'],
     'preload' => ['label' => 'Màn hình chờ', 'icon' => 'dashicons-update'],
   ];
@@ -101,6 +102,8 @@ add_action('admin_post_wn_save_settings', function () {
     update_option(WN_PLUGIN_SLUG . '_background', sanitize_hex_color($_POST['background'] ?? '') ?: '');
   } elseif ($tab === 'tet') {
     wn_tet_save_settings($_POST);
+  } elseif ($tab === 'contact') {
+    wn_contact_save_settings($_POST);
   }
   wn_clear_page_cache();
 
@@ -247,6 +250,13 @@ function wn_render_tab_search() {
     </div>
   </form>
   <?php
+}
+
+function wn_render_tab_contact() {
+  wn_module_bar('contact');
+  wn_settings_form_open('contact');
+  wn_contact_render_settings();
+  echo '<div class="wn-actions"><button type="submit" class="wn-btn wn-btn-primary">Lưu thay đổi</button></div></form>';
 }
 
 function wn_render_tab_tet() {

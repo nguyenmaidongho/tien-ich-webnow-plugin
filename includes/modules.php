@@ -12,6 +12,13 @@ function wn_modules() {
       'default' => '1',
       'tab' => 'search',
     ],
+    'contact' => [
+      'title' => 'Nút liên hệ',
+      'desc' => 'Nút nổi gọi điện, Zalo, Messenger, WhatsApp, chỉ đường. Thay plugin Button Contact VR.',
+      'icon' => 'dashicons-phone',
+      'default' => '1',
+      'tab' => 'contact',
+    ],
     'tet' => [
       'title' => 'Trang trí Tết',
       'desc' => 'Câu đối, hoa đào/mai rơi, pháo hoa; hẹn ngày tự bật/tắt. Thay plugin DevVN Trang trí Tết.',
@@ -68,9 +75,33 @@ function wn_modules() {
       'desc' => 'Dùng trình soạn thảo cổ điển thay cho Gutenberg.',
       'icon' => 'dashicons-edit',
       'default' => '0',
-      'warn' => 'Foxtool đang làm việc này, chỉ bật khi tắt Foxtool.',
+      'warn' => ($ce = wn_classic_editor_conflict()) ? "Plugin $ce đang bật và cũng chuyển sang trình soạn thảo cổ điển — không cần bật thêm ở đây." : '',
     ],
   ];
+}
+
+/** Tên plugin khác đang ép dùng Classic Editor (nếu có). */
+function wn_classic_editor_conflict() {
+  static $found = null;
+  if ($found !== null) {
+    return $found;
+  }
+  $known = [
+    'classic-editor/' => 'Classic Editor',
+    'disable-gutenberg/' => 'Disable Gutenberg',
+    'no-gutenberg/' => 'No Gutenberg',
+    'foxtool/' => 'Foxtool',
+  ];
+  $found = '';
+  foreach ((array) get_option('active_plugins', []) as $p) {
+    foreach ($known as $prefix => $name) {
+      if (str_starts_with($p, $prefix)) {
+        $found = $name;
+        break 2;
+      }
+    }
+  }
+  return $found;
 }
 
 function wn_module_on($key) {

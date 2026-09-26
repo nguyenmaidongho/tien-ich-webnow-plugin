@@ -125,3 +125,4 @@ add_action('wp_footer', function () {
 require_once WN_PLUGIN_DIR . '/includes/module-search.php';
 require_once WN_PLUGIN_DIR . '/includes/module-fontawesome.php';
 require_once WN_PLUGIN_DIR . '/includes/module-tet.php';
+require_once WN_PLUGIN_DIR . '/includes/module-contact.php';
